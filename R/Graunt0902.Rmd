@@ -11,10 +11,10 @@ Graunt의 생명표
 * 자료 출처
 
 ```{r echo=FALSE}
-setwd("~/Dropbox/Works/Class//Case_studies_in_stat/R.WD/lifetable/")
+# setwd("~/Dropbox/Works/Class//Case_studies_in_stat/R.WD/lifetable/")
 ```
 
-![Graunt 와 1993년 미국](./life_table_docs/graunt_table.png)
+![Graunt 와 1993년 미국](../pics/graunt_table.png)
 
 * 자료 입력
 

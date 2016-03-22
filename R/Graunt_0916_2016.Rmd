@@ -15,7 +15,7 @@ output: html_document
 library(extrafont)
 # font_import()
 load("graunt_0908.rda")
-loadfonts()
+# loadfonts()
 ```
 
 ```{r}
