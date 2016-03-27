@@ -12,7 +12,7 @@ Data Loading
 
 ```{r}
 rm(list=ls())
-load("lifetable_kr.rda")
+load("./lifetable_kr.rda")
 ls()
 ```
 
