@@ -1,5 +1,5 @@
 ---
-title: "Graunt’s Life Table Extended"
+title: "Graunt’s and Halley's Life Table with ggplot"
 author: "coop711"
 date: "`r Sys.Date()`"
 output: html_document
@@ -9,7 +9,7 @@ output: html_document
 
 <!--![Graunt 와 1993년 미국](../pics/graunt_table.png)-->
 
-<img src="../pics/graunt_us93.png" width="240"/>
+<img src="../pics/graunt_us93.png" width="160"/>
 
 #### Data Input
       
@@ -44,9 +44,8 @@ us.93$lx
 
 * 두 자료를 합쳐서 하나의 데이터프레임으로 
 
-```{r, eval = FALSE}
+```{r one data frmae}
 (graunt.us <- data.frame(graunt, lx.93 = us.93$lx))
-# graunt.us
 ```
 
 #### Life Expectancy 기대 수명 계산
@@ -68,7 +67,7 @@ plot(graunt, ann = F, xaxt = "n", yaxt = "n", type = "b")
 
     2. x-축과 y-축에 관찰된 연령과 생존률 표시.
 
-```{r, axes labels,  fig.width=6, fig.height=6}
+```{r, axes labels,  fig.width = 6, fig.height = 6}
 plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th)
@@ -76,7 +75,7 @@ axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th)
 
     3. 0세, 76세를 알아보기 쉽게 점선으로 표시
 
-```{r, age 0 and 76, fig.width=6, fig.height=6}
+```{r, age 0 and 76, fig.width = 6, fig.height = 6}
 plot(graunt$x, graunt$lx.17th, ann=F, xaxt="n", yaxt="n", type="b")
 axis(side=1, at=graunt$x, labels=graunt$x)
 axis(side=2, at=graunt$lx.17th, labels=graunt$lx.17th)
@@ -137,7 +136,7 @@ area.R <- function(x, y) {
 area.R(graunt$x, graunt$lx.17th) / 100
 ```
 
-### 1993년 미국의 생명표와 비교
+### Comparison with US 1993 lifetable
 
 * Graunt의 생존곡선과 1993년 미국 생존곡선 사이의 빗금친 부분은 기대수명의 차이를 나타내므로 각 곡선의 아랫 부분 면적을 계산해서 차이를 내면 됨.
     1. Graunt의 생존곡선을 먼저 그린다. 축과 연령 상하한도 표시한다.
@@ -231,6 +230,8 @@ abline(v = graunt$x, lty = 2)
 title(main="Graunt와 1993년 미국의 생존 곡선", xlab="연령(세)", ylab="생존률(%)")
 ```
 
+#### Life expectancy
+
 * 1993 미국 생존함수의 밑면적(기대수명)은 
 
 ```{r, area us 93} 
@@ -243,18 +244,20 @@ area.R(us.93$x, us.93$lx.93)/100
 area.R(us.93$x, us.93$lx.93)/100 - area.R(graunt$x, graunt$lx.17th)/100
 ```
 
-### Halley의 lifetable과 비교
+### Comparison with Halley's lifetable
 
-* Halley의 lifetable data
+#### Halley의 lifetable data
 
 ```{r, Halley life table}
 age <- 0:84
-lx <- c(1238, 1000, 855, 798, 760, 732, 710, 692, 680, 670, 661, 653, 646, 640, 634, 628, 622, 616, 610, 604, 598, 592, 586, 579, 573, 567, 560, 553, 546, 539, 531, 523, 515, 507, 499, 490, 481, 472, 463, 454, 445, 436, 427, 417, 407, 397, 387, 377, 367, 357, 346, 335, 324, 313, 302, 292, 282, 272, 262, 252, 242, 232, 222, 212, 202, 192, 182, 172, 162, 152, 142, 131, 120, 109,98, 88, 78, 68, 58, 50, 41, 34, 28, 23, 20)
+lx <- c(1238, 1000, 855, 798, 760, 732, 710, 692, 680, 670, 661, 653, 646, 640, 634, 628, 622, 616, 610, 604, 598, 592, 586, 579, 573, 567, 560, 553, 546, 539, 531, 523, 515, 507, 499, 490, 481, 472, 463, 454, 445, 436, 427, 417, 407, 397, 387, 377, 367, 357, 346, 335, 324, 313, 302, 292, 282, 272, 262, 252, 242, 232, 222, 212, 202, 192, 182, 172, 162, 152, 142, 131, 120, 109, 98, 88, 78, 68, 58, 50, 41, 34, 28, 23, 20)
 length(lx)
 halley <- data.frame(age, lx)
-halley$px <- round(halley$lx/1238*100, digits=1)
+halley$px <- round(halley$lx/1238*100, digits = 1)
 halley
 ```
+
+### With Base Plot
 
 * Graunt의 생존함수와 쉽게 비교할 수 있도록 연령이 `r graunt$x`인 점에만 같은 동그라미 점으로 표시. 역시 작업 순서단계별로 그려보면,
     1. Halley의 생존함수부터 그린다.     
@@ -324,6 +327,8 @@ text(x = c(16, 36), y=c(20, 50), label=c("Graunt", "Halley"))
 title(main="Graunt와 Halley의 생존 곡선 비교", xlab="연령(세)", ylab="생존률(%)")
 ```
 
+### Polygon
+
 * `polygon()` 에 필요한 좌표 설정. 두 생존곡선의 교점을 `x = 10.8, y = 52.8`로 찾았는데 `locator(1)`과 시행착오를 거쳐야 함.
     * 교점 윗부분의 좌표
 
@@ -368,6 +373,8 @@ polygon(poly.1.x, poly.1.y, angle=45, density=15, col="blue")
 polygon(poly.2.x, poly.2.y, angle=45, density=15, col="red")
 ```
 
+#### Life expectancy
+
 * 기대수명은 어떻게 차이나는가?
 
 ```{r}
@@ -377,66 +384,12 @@ polygon(poly.2.x, poly.2.y, angle=45, density=15, col="red")
 
 ## ggplot 으로 그려본다면
 
-
-* `graunt` 와 `us.93`를  하나의 데이터 프레임으로 통합
-
-```{r}
-graunt.us <- data.frame(graunt, lx.93 = us.93$lx.93)
-graunt.us
-str(graunt.us)
-```
-
-* wide format을 long format으로 바꾸기 위해서 'reshape2' 패키지 등록 
-
-```{r}
-library(reshape2)
-```
-
-* 다음 구조를 명확히 이해.
-
-```{r}
-graunt.melt<-melt(graunt.us, id.vars = "x", measure.vars = c("lx.17th", "lx.93"), value.name="lx")
-graunt.melt
-str(graunt.melt)
-```
-
-* 17세기 생명표와 1993년 생명표를 `times` factor로 구분
-
-```{r}
-graunt.melt$times <- factor(graunt.melt$variable, labels = c("17th", "1993"))
-str(graunt.melt)
-```
-
-* `ggplot2` 패키지 등록
-
-```{r}
-library(ggplot2)
-```
-
-* ggplot의 구조를 이해하기 쉽도록 가능한 단계별로 작업하고 저장.
-
-```{r fig.width=6, fig.height=5}
-g1 <- ggplot(graunt.melt, aes(x = x, y = lx, colour = times)) + geom_point()
-g1
-g2 <- g1 + geom_line()
-g2
-g3 <- g2 + theme_bw()
-g3
-```
-
-## ggplot에 한글 정보를 입력하려면, 
-
-### 생존함수 비교
-
-* ggplot의 구조로부터 마지막 도표만 다시 나타내면,
-
-```{r fig.width=6, fig.height=6}
-g3
-```
+### To add Korean Fonts to theme
 
 * 그림의 전체 제목과 x-축, y-축, 범례를 한글로 바꿔 주기 위하여 `extrafont` 패키지를 설치하고 시스템 폰트를 등록한 후 `theme()`을 한글로 설정하여 저장.
 
 ```{r}
+library(ggplot2)
 theme.kr <- theme(axis.title.x = element_text(family = "HCR Dotum LVT"),
                   axis.title.y = element_text(family = "HCR Dotum LVT"),
                   axis.text.x = element_text(family = "HCR Dotum LVT"),
@@ -446,16 +399,74 @@ theme.kr <- theme(axis.title.x = element_text(family = "HCR Dotum LVT"),
                   legend.text = element_text(family = "HCR Dotum LVT"))
 ```
 
-    1. 지난 시간에 그린 `g3`에 theme.kr을 적용하고, x-축과 y-축의 라벨 수정. 
+### Reshape
+
+* wide format을 long format으로 바꾸기 위해서 'reshape2' 패키지 등록 
+
+```{r}
+library(reshape2)
+```
+
+* 다음 구조를 명확히 이해.
+
+```{r, format of melt}
+graunt.melt <- melt(graunt.us, id.vars = "x", measure.vars = c("lx.17th", "lx.93"), value.name = "lx", variable.name = "times")
+graunt.melt
+str(graunt.melt)
+```
+
+* 17세기 생명표와 1993년 생명표를 `times` factor로 구분
+
+```{r, factor level}
+levels(graunt.melt$times) <- c("17th", "1993")
+str(graunt.melt)
+```
+
+### ggplot
+
+#### Points and Lines
+
+* ggplot의 구조를 이해하기 쉽도록 가능한 단계별로 작업하고 저장. `geom_polygon` 작업에서 `data.frame`과 `aes`가 바뀌므로 `ggplot()`을 비워놓은 점에 유의.
+
+```{r, geom_point geom_line, fig.width = 6, fig.height = 6}
+g1 <- ggplot() + geom_point(data = graunt.melt, aes(x = x, y = lx, colour = times))
+g1
+g2 <- g1 + geom_line(data = graunt.melt, aes(x = x, y = lx, colour = times))
+g2
+g3 <- g2 + theme_bw()
+g3
+```
+
+#### Polygon
+
+* polygon 으로 두 생명곡선의 차이를 드러내기 위해서는 polygon의 좌표를 나타내는 별도의 데이터 프레임이 필요함.
+
+```{r, polygon data}
+graunt.poly <- data.frame(x = graunt.melt[c(1:9, 18:10), 1], y = graunt.melt[c(1:9, 18:10), 3])
+graunt.poly
+```
+
+```{r, polygon, fig.width = 6, fig.height = 6}
+p3 <- g3 + geom_polygon(data = graunt.poly, aes(x = x, y = y), alpha = 0.3, fill = "red")
+p3
+p4 <- p3 + guides(colour = "none")
+p4
+```
+
+### Add Korean Annotations
+
+#### Points and Lines
+
+    1. 지난 시간에 그린 g3에 theme.kr을 적용하고, x-축과 y-축의 라벨 수정. 
     
-```{r fig.width=6, fig.height=6}
+```{r, theme_kr, fig.width=6, fig.height=6}
 (g4 <- g3 + theme.kr +
    xlab("연령") + ylab("생존률(%)"))
 ```
 
     2. 전체 제목 추가
 
-```{r fig.width=6, fig.height=6}
+```{r, ggtitle, fig.width=6, fig.height=6}
 (g4 <- g3 + theme.kr +
    xlab("연령") + ylab("생존률(%)") +
    ggtitle("Graunt 시대와 1993년 미국의 생존함수 비교"))
@@ -463,16 +474,16 @@ theme.kr <- theme(axis.title.x = element_text(family = "HCR Dotum LVT"),
 
     3. 범례 제목 한글로 수정.
     
-```{r fig.width=6, fig.height=6}
+```{r, legends title, fig.width = 6, fig.height = 6}
 (g4 <- g3 + theme.kr +
    xlab("연령") + ylab("생존률(%)") +
    ggtitle("Graunt 시대와 1993년 미국의 생존함수 비교") +
-   labs(colour="시기"))
+   labs(colour = "시기"))
 ```
 
     4. 범례의 항목 한글로 수정.
     
-```{r fig.width=6, fig.height=6}
+```{r, korean legends, fig.width = 6, fig.height = 6}
 (g4 <- g3 + theme.kr +
    xlab("연령") + ylab("생존률(%)") +
    ggtitle("Graunt 시대와 1993년 미국의 생존함수 비교") +
@@ -482,50 +493,29 @@ theme.kr <- theme(axis.title.x = element_text(family = "HCR Dotum LVT"),
 
 * 범례를 그림 안쪽에 위치시키려면,
 
-```{r fig.width=6, fig.height=6}
+```{r, legends inside, fig.width = 6, fig.height = 6}
 (g5 <- g4 + theme(legend.position = c(0.8, 0.5)))
 ```
 
 * x-축의 눈금과 y-축의 눈금을 낯익은 값들로 조정.
 
-```{r fig.width=6, fig.height=6}
-(g6 <- g5 + scale_x_continuous(breaks=graunt$x) + scale_y_continuous(breaks=graunt$lx.17th)
-   )
+```{r, axis tick marks, fig.width = 6, fig.height = 6}
+(g6 <- g5 + scale_x_continuous(breaks = graunt$x) + scale_y_continuous(breaks = graunt$lx.17th))
+ggsave("../pics/graunt_us_plot.png", g6)
 ```
 
-### 기대수명 비교
-
-* polygon 으로 두 생명곡선의 차이를 드러내기 위해서는 polygon의 좌표를 나타내는 별도의 데이터 프레임이 필요함.
-
-```{r}
-graunt.poly <- data.frame(x=graunt.melt[c(1:9, 18:10), 1], y=graunt.melt[c(1:9, 18:10), 3])
-graunt.poly
-```
-
-* 점들을 선으로 이어주기 위하여 `geom_line()`를 사용하면 원하지 않는 결과를 얻게 됨. `geom_path()`를 사용하여야 함.
-
-```{r fig.width=5, fig.height=5}
-p1 <- ggplot(graunt.poly, aes(x=x, y=y)) + geom_point() 
-p1
-p2 <- p1 + geom_path() 
-p2
-p3 <- p2 + geom_polygon(alpha=0.3, fill="red")
-p3
-p4 <- p3 + theme_bw()
-p4
-```
-
+#### Polygon
 
 * `polygon` 으로 그린 최종 작품에 한글 정보 입력.
     1. p4에서 출발.
 
-```{r fig.width=6, fig.height=6}
+```{r, start with p4, fig.width = 6, fig.height = 6}
 p4
 ```
 
     2. 앞과 같은 방법으로 타이틀과 범례에 한글 입력.
 
-```{r fig.width=6, fig.height=6}
+```{r, korean labels,  fig.width = 6, fig.height = 6}
 (p5 <- p4 + theme.kr +
    xlab("연령") + ylab("생존률(%)") +
    ggtitle("Graunt 시대와 1993년 미국의 기대수명 차이"))
@@ -533,28 +523,33 @@ p4
 
     3. "Graunt 시대", "1993년 미국", "기대수명의 차이"를 각각 필요한 위치 삽입.
     
-```{r fig.width=6, fig.height=6}
+```{r, text polygon,  fig.width = 6, fig.height = 6}
 (p6 <- p5 + annotate("text", x = c(20, 40, 70), y = c(20, 60, 90), label=c("Graunt 시대", "기대수명의 차이", "1993년 미국"), family="HCR Dotum LVT"))
 ```
 
     4. x-축의 눈금과 y-축의 눈금을 낯익은 값들로 조정.
 
-```{r fig.width=6, fig.height=6}
-(p7 <- p6 + scale_x_continuous(breaks=graunt$x) + scale_y_continuous(breaks=graunt$lx.17th))
+```{r, familiar axis labels, fig.width = 6, fig.height = 6}
+(p7 <- p6 + scale_x_continuous(breaks = graunt$x) + scale_y_continuous(breaks = graunt$lx.17th))
+ggsave("../pics/graunt_us_poly.png", p7)
 ```
 
-* `theme.kr`은 어떻게 생겼는가?
+### theme.kr
 
-```{r}
-theme.kr
+* structure and class of `theme.kr`
+
+```{r, theme_kr str}
+# theme.kr
 str(theme.kr)
 class(theme.kr)
 ```
 
-* 이 세션에서 만든 함수를 어떻게 저장하는 지 유의. 불러올 떄는 `source()` 사용.
+### dump() and source()
 
-```{r}
+* 이 세션에서 만든 함수를 어떻게 저장하는 지 유의. 불러올 때는 `source()` 사용.
+
+```{r, dump and save}
 dump("theme.kr", file="theme_kr.R")
-dump("area.R", file="area.R")
-save.image("graunt_1018.rda")
+dump("area.R", file = "area.R")
+save.image("graunt_halley_160328.rda")
 ```
