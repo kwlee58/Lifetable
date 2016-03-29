@@ -9,7 +9,7 @@ output: html_document
 
 <!--![Graunt 와 1993년 미국](../pics/graunt_table.png)-->
 
-<img src="../pics/graunt_us93.png" width="160"/>
+<img src="../pics/graunt_table.png" width="160"/>
 
 #### Data Input
       
