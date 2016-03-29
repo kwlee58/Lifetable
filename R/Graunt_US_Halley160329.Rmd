@@ -32,8 +32,11 @@ us.93 <- data.frame(x = graunt$x, lx.93 = c(100, 99, 99, 98, 97, 95, 92, 84, 70)
 ```{r, extraction}
 us.93["lx.93"]
 us.93["lx.93"][[1]]
+us.93["lx.93"]$lx.93
+us.93["lx.93"]$lx
 us.93[2]
 us.93[2][[1]]
+us.93[2]$lx.93
 us.93[, "lx.93"]
 us.93[, 2]
 us.93$lx.93
@@ -60,15 +63,15 @@ us.93$lx
     1. 점과 선으로 Graunt 생존함수의 골격을 그리고,
 
 ```{r, first plot, fig.width = 6, fig.height = 6}
-# plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
-plot(lx.17th ~ x, data = graunt, ann = F, xaxt = "n", yaxt = "n", type = "b")
-plot(graunt, ann = F, xaxt = "n", yaxt = "n", type = "b")
+# plot(graunt$x, graunt$lx.17th, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
+plot(lx.17th ~ x, data = graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
+plot(graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 ```
 
     2. x-축과 y-축에 관찰된 연령과 생존률 표시.
 
 ```{r, axes labels,  fig.width = 6, fig.height = 6}
-plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
+plot(graunt$x, graunt$lx.17th, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th)
 ```
@@ -76,9 +79,9 @@ axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th)
     3. 0세, 76세를 알아보기 쉽게 점선으로 표시
 
 ```{r, age 0 and 76, fig.width = 6, fig.height = 6}
-plot(graunt$x, graunt$lx.17th, ann=F, xaxt="n", yaxt="n", type="b")
-axis(side=1, at=graunt$x, labels=graunt$x)
-axis(side=2, at=graunt$lx.17th, labels=graunt$lx.17th)
+plot(graunt$x, graunt$lx.17th, ann=F, xaxt="n", yaxt="n", type = "b")
+axis(side = 1, at=graunt$x, labels=graunt$x)
+axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th)
 abline(v = c(0, 76), lty = 2)
 ```
 
@@ -92,7 +95,7 @@ abline(v = c(0, 76), lty = 2)
     4. 빗금칠
 
 ```{r, shading polygon, fig.width = 6, fig.height = 6}
-plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
+plot(graunt$x, graunt$lx.17th, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th)
 abline(v = c(0, 76), lty = 2)
@@ -102,11 +105,11 @@ polygon(graunt.x, graunt.y, density = 15, angle = 135)
     5. 알아보기 쉽게 격자 설정
 
 ```{r, grid,  fig.width = 6, fig.height = 6}
-plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
+plot(graunt$x, graunt$lx.17th, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th)
 abline(v = c(0, 76), lty = 2)
-polygon(graunt.x, graunt.y, density=15)
+polygon(graunt.x, graunt.y, density = 15)
 abline(v = graunt$x, lty = 2)
 ```
 
@@ -114,13 +117,16 @@ abline(v = graunt$x, lty = 2)
 
 ```{r, title axis labels, fig.width = 6, fig.height = 6}
 par(family = "Apple SD Gothic Neo")
-plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
+plot(graunt$x, graunt$lx.17th, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th)
-abline(v = c(0, 76), lty=2)
-polygon(graunt.x, graunt.y, density=15)
+abline(v = c(0, 76), lty = 2)
+polygon(graunt.x, graunt.y, density = 15)
 abline(v = graunt$x, lty = 2)
-title(main = "John Graunt의 생존 곡선", xlab = "연령(세)", ylab = "생존률(%)")
+main.title <- "John Graunt의 생존 곡선"
+x.lab <- "연령(세)"
+y.lab <- "생존률(%)"
+title(main = main.title, xlab = x.lab, ylab = y.lab)
 ```
 
 #### Area under the curve
@@ -142,16 +148,16 @@ area.R(graunt$x, graunt$lx.17th) / 100
     1. Graunt의 생존곡선을 먼저 그린다. 축과 연령 상하한도 표시한다.
     
 ```{r, Graunt first, fig.width = 6, fig.height = 6}
-plot(graunt, ann = F, xaxt = "n", yaxt = "n", type = "b")
+plot(graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
-axis(side=2, at=graunt$lx, labels=graunt$lx.17th)
-abline(v=c(0, 76), lty=2)
+axis(side = 2, at = graunt$lx, labels = graunt$lx.17th)
+abline(v=c(0, 76), lty = 2)
 ```
 
     2. 1993년 미국의 생존함수 추가
 
 ```{r, us93 added, fig.width = 6, fig.height = 6}
-plot(graunt, ann = F, xaxt = "n", yaxt = "n", type = "b")
+plot(graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx, labels = graunt$lx.17th)
 abline(v = c(0, 76), lty = 2)
@@ -161,7 +167,7 @@ lines(us.93$x, us.93$lx.93, type = "b")
     3. 1993년 미국인의 76세까지 생존률 70%를 점선으로 표시. 
 
 ```{r, rate 70,  fig.width = 6, fig.height = 6}
-plot(graunt, ann = F, xaxt = "n", yaxt = "n", type = "b")
+plot(graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx, labels = graunt$lx.17th)
 abline(v = c(0, 76), lty = 2)
@@ -172,7 +178,7 @@ abline(h = 70, lty = 2)
     4. 70% 눈금에 `las = 1`을 써서 수평하게 표시. 
 
 ```{r, las, fig.width = 6, fig.height = 6}
-plot(graunt, ann = F, xaxt = "n", yaxt = "n", type = "b")
+plot(graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx, labels = graunt$lx.17th)
 abline(v = c(0, 76), lty = 2)
@@ -191,7 +197,7 @@ us.graunt.y <- c(us.93$lx.93, rev(graunt$lx.17th))
     5. 두 곡선의 사이를 빗금으로 표시.
 
 ```{r, shading between, fig.width = 6, fig.height = 6}
-plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
+plot(graunt$x, graunt$lx.17th, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx, labels = graunt$lx.17th)
 abline(v = c(0, 76), lty = 2)
@@ -204,7 +210,7 @@ polygon(us.graunt.x, us.graunt.y, density = 15, col = "red", border = NA)
     6. 알아보기 쉽게 격자 표시
 
 ```{r, grid for clasrity, fig.width = 6, fig.height = 6}
-plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
+plot(graunt$x, graunt$lx.17th, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx, labels = graunt$lx.17th)
 abline(v = c(0, 76), lty = 2)
@@ -218,7 +224,7 @@ abline(v = graunt$x, lty = 2)
     7. 제목과 x-축, y-축의 라벨 입력.
 
 ```{r, title-axis-labels, fig.width = 6, fig.height = 6}
-plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
+plot(graunt$x, graunt$lx.17th, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx, labels = graunt$lx.17th)
 abline(v = c(0, 76), lty = 2)
@@ -227,7 +233,8 @@ abline(h = 70, lty = 2)
 axis(side = 2, at = 70, labels = 70, las = 1)
 polygon(us.graunt.x, us.graunt.y, density = 15, col = "red", border = NA)
 abline(v = graunt$x, lty = 2)
-title(main="Graunt와 1993년 미국의 생존 곡선", xlab="연령(세)", ylab="생존률(%)")
+title(main="Graunt와 1993년 미국의 생존 곡선", xlab = x.lab, ylab = y.lab)
+dev.copy(device = png, file = "../pics/graunt_us93.png")
 ```
 
 #### Life expectancy
@@ -262,69 +269,71 @@ halley
 * Graunt의 생존함수와 쉽게 비교할 수 있도록 연령이 `r graunt$x`인 점에만 같은 동그라미 점으로 표시. 역시 작업 순서단계별로 그려보면,
     1. Halley의 생존함수부터 그린다.     
 
-```{r fig.width=7, fig.height=7}
-plot(px ~ age, data = halley, ann = F, xaxt = "n", yaxt = "n", type="l")
+```{r, Halley first, fig.width = 6, fig.height = 6}
+plot(px ~ age, data = halley, ann = FALSE, xaxt = "n", yaxt = "n", type = "l")
 ```
 
     2. Halley의 생존곡선에 Graunt의 생명표에 나오는 연령에서 관찰되는 생존률을 같은 모양의 점으로 표시한다.
     
-```{r fig.width=7, fig.height=7}
-plot(px ~ age, data = halley, ann = F, xaxt = "n", yaxt = "n", type="l")
-points(px[age %in% graunt$x]~age[age %in% graunt$x], data=halley)
+```{r, Halley with Graunt age, fig.width = 6, fig.height = 6}
+age.graunt <- age %in% graunt$x
+plot(px ~ age, data = halley, ann = FALSE, xaxt = "n", yaxt = "n", type = "l")
+points(px[age.graunt] ~ age[age.graunt], data = halley)
 ```
 
     3. Graunt의 생존곡선을 추가한다. 
     
-```{r fig.width=7, fig.height=7}
-plot(px ~ age, data = halley, ann = F, xaxt = "n", yaxt = "n", type="l")
-points(px[age %in% graunt$x]~age[age %in% graunt$x], data=halley)
-lines(lx.17th~x, data=graunt, type="b")
+```{r, Graunt added, fig.width = 6, fig.height = 6}
+plot(px ~ age, data = halley, ann = FALSE, xaxt = "n", yaxt = "n", type = "l")
+points(px[age.graunt] ~ age[age.graunt], data = halley)
+lines(lx.17th ~ x, data = graunt, type = "b")
 ```
 
-    4. x-축과 y-축에 라벨을 넣는다. y축 라벨을 보기 쉽게 `las=1` 적용.
+    4. x-축과 y-축에 라벨을 넣는다. y축 라벨을 보기 쉽게 `las = 1` 적용.
     
-```{r fig.width=7, fig.height=7}
-plot(px ~ age, data = halley, ann = F, xaxt = "n", yaxt = "n", type="l")
-points(px[age %in% graunt$x]~age[age %in% graunt$x], data=halley)
-lines(lx.17th~x, data=graunt, type="b")
-axis(side=1, at=c(graunt$x, 84), labels=c(graunt$x, 84))
-axis(side=2, at=graunt$lx.17th, labels=graunt$lx.17th, las=1)
+```{r, labels, fig.width = 6, fig.height = 6}
+plot(px ~ age, data = halley, ann = FALSE, xaxt = "n", yaxt = "n", type = "l")
+points(px[age.graunt] ~ age[age.graunt], data = halley)
+lines(lx.17th ~ x, data = graunt, type = "b")
+axis(side = 1, at = c(graunt$x, 84), labels = c(graunt$x, 84))
+axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th, las = 1)
 ```
 
     5. 0세, 76세, 85세에 점선으로 수직선 설치
 
-```{r fig.width=7, fig.height=7}
-plot(px ~ age, data = halley, ann = F, xaxt = "n", yaxt = "n", type="l")
-points(px[age %in% graunt$x]~age[age %in% graunt$x], data=halley)
-lines(lx.17th~x, data=graunt, type="b")
-axis(side=1, at=c(graunt$x, 84), labels=c(graunt$x, 84))
-axis(side=2, at=graunt$lx.17th, labels=graunt$lx.17th, las=1)
-abline(v=c(0, 76, 84), lty=2)
+```{r fig.width = 6, fig.height = 6}
+plot(px ~ age, data = halley, ann = FALSE, xaxt = "n", yaxt = "n", type = "l")
+points(px[age.graunt] ~ age[age.graunt], data = halley)
+lines(lx.17th ~ x, data = graunt, type = "b")
+axis(side = 1, at = c(graunt$x, 84), labels = c(graunt$x, 84))
+axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th, las = 1)
+abline(v=c(0, 76, 84), lty = 2)
 ```
 
     5. 적절한 좌표에 각 생존함수의 개발자를 표시하여 구분.
 
-```{r fig.width=7, fig.height=7}
-plot(px ~ age, data = halley, ann = F, xaxt = "n", yaxt = "n", type="l")
-points(px[age %in% graunt$x]~age[age %in% graunt$x], data=halley)
-lines(lx.17th~x, data=graunt, type="b")
-axis(side=1, at=c(graunt$x, 84), labels=c(graunt$x, 84))
-axis(side=2, at=graunt$lx.17th, labels=graunt$lx.17th, las=1)
-abline(v=c(0, 76, 84), lty=2)
-text(x = c(16, 36), y=c(20, 50), label=c("Graunt", "Halley"))
+```{r fig.width = 6, fig.height = 6}
+plot(px ~ age, data = halley, ann = FALSE, xaxt = "n", yaxt = "n", type = "l")
+points(px[age.graunt] ~ age[age.graunt], data = halley)
+lines(lx.17th ~ x, data = graunt, type = "b")
+axis(side = 1, at = c(graunt$x, 84), labels = c(graunt$x, 84))
+axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th, las = 1)
+abline(v=c(0, 76, 84), lty = 2)
+text(x = c(16, 36), y = c(20, 50), label = c("Graunt", "Halley"))
 ```
 
     6. 전체 제목과 x-축 및 y-축의 라벨 표시.
     
-```{r fig.width=7, fig.height=7}
-plot(px ~ age, data = halley, ann = F, xaxt = "n", yaxt = "n", type="l")
-points(px[age %in% graunt$x]~age[age %in% graunt$x], data=halley)
-lines(lx.17th~x, data=graunt, type="b")
-axis(side=1, at=c(graunt$x, 84), labels=c(graunt$x, 84))
-axis(side=2, at=graunt$lx.17th, labels=graunt$lx.17th, las=1)
-abline(v=c(0, 76, 84), lty=2)
-text(x = c(16, 36), y=c(20, 50), label=c("Graunt", "Halley"))
-title(main="Graunt와 Halley의 생존 곡선 비교", xlab="연령(세)", ylab="생존률(%)")
+```{r fig.width = 6, fig.height = 6}
+plot(px ~ age, data = halley, ann = FALSE, xaxt = "n", yaxt = "n", type = "l")
+points(px[age.graunt] ~ age[age.graunt], data = halley)
+lines(lx.17th ~ x, data = graunt, type = "b")
+axis(side = 1, at = c(graunt$x, 84), labels = c(graunt$x, 84))
+axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th, las = 1)
+abline(v=c(0, 76, 84), lty = 2)
+text(x = c(16, 36), y = c(20, 50), label = c("Graunt", "Halley"))
+main.title.2 <- "Graunt와 Halley의 생존 곡선 비교"
+title(main = main.title.2, xlab = x.lab, ylab = y.lab)
 ```
 
 ### Polygon
@@ -332,54 +341,55 @@ title(main="Graunt와 Halley의 생존 곡선 비교", xlab="연령(세)", ylab=
 * `polygon()` 에 필요한 좌표 설정. 두 생존곡선의 교점을 `x = 10.8, y = 52.8`로 찾았는데 `locator(1)`과 시행착오를 거쳐야 함.
     * 교점 윗부분의 좌표
 
-```{r}
-poly.1.x<-c(0:10, 10.8, 6, 0)
-poly.1.y<-c(halley$px[1:11], 52.8, graunt$lx.17th[2:1])
+```{r, coords upper region}
+poly.1.x <- c(graunt$x[1:2], 10.8, halley$age[11:1])
+poly.1.y <- c(graunt$lx.17th[1:2], 52.8, halley$px[11:1])
 ```
 
     * 교점 아랫부분의 좌표
 
-```{r}
-poly.2.x <- c(10.8, graunt$x[3:9], rev(halley$age[12:85]))
-poly.2.y <- c(52.8, graunt$lx.17th[3:9], rev(halley$px[12:85]))
+```{r, coords lower region}
+poly.2.x <- c(10.8, halley$age[12:85], graunt$x[9:3])
+poly.2.y <- c(52.8, halley$px[12:85], graunt$lx.17th[9:3])
 ```
 
     7. 차이를 비교하기 쉽도록 빗금으로 표시하되, 윗부분 먼저 표시. 
 
-```{r fig.width=7, fig.height=7}
-plot(px ~ age, data = halley, ann = F, xaxt = "n", yaxt = "n", type="l")
-points(px[age %in% graunt$x]~age[age %in% graunt$x], data=halley)
-lines(lx.17th~x, data=graunt, type="b")
-axis(side=1, at=c(graunt$x, 84), labels=c(graunt$x, 84))
-axis(side=2, at=graunt$lx.17th, labels=graunt$lx.17th, las=1)
-abline(v=c(0, 76, 84), lty=2)
-text(x = c(16, 36), y=c(20, 50), label=c("Graunt", "Halley"))
-title(main="Graunt와 Halley의 생존 곡선 비교", xlab="연령(세)", ylab="생존률(%)")
-polygon(poly.1.x, poly.1.y, angle=45, density=15, col="blue")
+```{r, shading upper region, fig.width = 6, fig.height = 6}
+plot(px ~ age, data = halley, ann = FALSE, xaxt = "n", yaxt = "n", type = "l")
+points(px[age.graunt] ~ age[age.graunt], data = halley)
+lines(lx.17th ~ x, data = graunt, type = "b")
+axis(side = 1, at = c(graunt$x, 84), labels = c(graunt$x, 84))
+axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th, las = 1)
+abline(v=c(0, 76, 84), lty = 2)
+text(x = c(16, 36), y = c(20, 50), label = c("Graunt", "Halley"))
+title(main = main.title.2, xlab = x.lab, ylab = y.lab)
+polygon(poly.1.x, poly.1.y, angle = 45, density = 15, col = "blue")
 ```
 
     8. 아랫부분 표시. 
 
-```{r fig.width=7, fig.height=7}
-plot(px ~ age, data = halley, ann = F, xaxt = "n", yaxt = "n", type="l")
-points(px[age %in% graunt$x]~age[age %in% graunt$x], data=halley)
-lines(lx.17th~x, data=graunt, type="b")
-axis(side=1, at=c(graunt$x, 84), labels=c(graunt$x, 84))
-axis(side=2, at=graunt$lx.17th, labels=graunt$lx.17th, las=1)
-abline(v=c(0, 76, 84), lty=2)
-text(x = c(16, 36), y=c(20, 50), label=c("Graunt", "Halley"))
-title(main="Graunt와 Halley의 생존 곡선 비교", xlab="연령(세)", ylab="생존률(%)")
-polygon(poly.1.x, poly.1.y, angle=45, density=15, col="blue")
-polygon(poly.2.x, poly.2.y, angle=45, density=15, col="red")
+```{r, shading lower region, fig.width = 6, fig.height = 6}
+plot(px ~ age, data = halley, ann = FALSE, xaxt = "n", yaxt = "n", type = "l")
+points(px[age.graunt] ~ age[age.graunt], data = halley)
+lines(lx.17th ~ x, data = graunt, type = "b")
+axis(side = 1, at = c(graunt$x, 84), labels = c(graunt$x, 84))
+axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th, las = 1)
+abline(v=c(0, 76, 84), lty = 2)
+text(x = c(16, 36), y = c(20, 50), label = c("Graunt", "Halley"))
+title(main = main.title.2, xlab = x.lab, ylab = y.lab)
+polygon(poly.1.x, poly.1.y, angle = 45, density = 15, col = "blue")
+polygon(poly.2.x, poly.2.y, angle = 45, density = 15, col = "red")
+dev.copy(device = png, file = "../pics/graunt_halley.png")
 ```
 
 #### Life expectancy
 
 * 기대수명은 어떻게 차이나는가?
 
-```{r}
-(ex.halley <- area.R(halley$age, halley$px)/100)
-(ex.graunt <- area.R(graunt$x, graunt$lx.17th)/100)
+```{r, life expectancy comparison}
+(life.exp.halley <- area.R(halley$age, halley$px)/100)
+(life.exp.graunt <- area.R(graunt$x, graunt$lx.17th)/100)
 ```
 
 ## ggplot 으로 그려본다면
@@ -388,8 +398,9 @@ polygon(poly.2.x, poly.2.y, angle=45, density=15, col="red")
 
 * 그림의 전체 제목과 x-축, y-축, 범례를 한글로 바꿔 주기 위하여 `extrafont` 패키지를 설치하고 시스템 폰트를 등록한 후 `theme()`을 한글로 설정하여 저장.
 
-```{r}
+```{r, library ggplot2}
 library(ggplot2)
+library(extrafont)
 theme.kr <- theme(axis.title.x = element_text(family = "HCR Dotum LVT"),
                   axis.title.y = element_text(family = "HCR Dotum LVT"),
                   axis.text.x = element_text(family = "HCR Dotum LVT"),
@@ -403,23 +414,23 @@ theme.kr <- theme(axis.title.x = element_text(family = "HCR Dotum LVT"),
 
 * wide format을 long format으로 바꾸기 위해서 'reshape2' 패키지 등록 
 
-```{r}
+```{r, reshape2}
 library(reshape2)
 ```
 
 * 다음 구조를 명확히 이해.
 
 ```{r, format of melt}
-graunt.melt <- melt(graunt.us, id.vars = "x", measure.vars = c("lx.17th", "lx.93"), value.name = "lx", variable.name = "times")
-graunt.melt
-str(graunt.melt)
+graunt.us.melt <- melt(graunt.us, id.vars = "x", measure.vars = c("lx.17th", "lx.93"), value.name = "lx", variable.name = "times")
+graunt.us.melt
+str(graunt.us.melt)
 ```
 
 * 17세기 생명표와 1993년 생명표를 `times` factor로 구분
 
 ```{r, factor level}
-levels(graunt.melt$times) <- c("17th", "1993")
-str(graunt.melt)
+levels(graunt.us.melt$times) <- c("17th", "1993")
+str(graunt.us.melt)
 ```
 
 ### ggplot
@@ -429,25 +440,20 @@ str(graunt.melt)
 * ggplot의 구조를 이해하기 쉽도록 가능한 단계별로 작업하고 저장. `geom_polygon` 작업에서 `data.frame`과 `aes`가 바뀌므로 `ggplot()`을 비워놓은 점에 유의.
 
 ```{r, geom_point geom_line, fig.width = 6, fig.height = 6}
-g1 <- ggplot() + geom_point(data = graunt.melt, aes(x = x, y = lx, colour = times))
+g1 <- ggplot() + geom_point(data = graunt.us.melt, aes(x = x, y = lx, colour = times))
 g1
-g2 <- g1 + geom_line(data = graunt.melt, aes(x = x, y = lx, colour = times))
+g2 <- g1 + geom_line(data = graunt.us.melt, aes(x = x, y = lx, colour = times))
 g2
 g3 <- g2 + theme_bw()
 g3
 ```
 
-#### Polygon
+#### Polygon with ggplot
 
-* polygon 으로 두 생명곡선의 차이를 드러내기 위해서는 polygon의 좌표를 나타내는 별도의 데이터 프레임이 필요함.
-
-```{r, polygon data}
-graunt.poly <- data.frame(x = graunt.melt[c(1:9, 18:10), 1], y = graunt.melt[c(1:9, 18:10), 3])
-graunt.poly
-```
+* polygon 으로 두 생명곡선의 차이를 드러내기 위해서 base plot에서 만든 `us.graunt.x`와 `us.graunt.y`를 재활용. default legend를 없애는 방법에 유의.
 
 ```{r, polygon, fig.width = 6, fig.height = 6}
-p3 <- g3 + geom_polygon(data = graunt.poly, aes(x = x, y = y), alpha = 0.3, fill = "red")
+p3 <- g3 + geom_polygon(data = data.frame(x = us.graunt.x, y = us.graunt.y), aes(x = x, y = y), alpha = 0.3, fill = "red")
 p3
 p4 <- p3 + guides(colour = "none")
 p4
@@ -459,14 +465,14 @@ p4
 
     1. 지난 시간에 그린 g3에 theme.kr을 적용하고, x-축과 y-축의 라벨 수정. 
     
-```{r, theme_kr, fig.width=6, fig.height=6}
+```{r, theme_kr, fig.width = 6, fig.height=6}
 (g4 <- g3 + theme.kr +
    xlab("연령") + ylab("생존률(%)"))
 ```
 
     2. 전체 제목 추가
 
-```{r, ggtitle, fig.width=6, fig.height=6}
+```{r, ggtitle, fig.width = 6, fig.height=6}
 (g4 <- g3 + theme.kr +
    xlab("연령") + ylab("생존률(%)") +
    ggtitle("Graunt 시대와 1993년 미국의 생존함수 비교"))
@@ -487,7 +493,7 @@ p4
 (g4 <- g3 + theme.kr +
    xlab("연령") + ylab("생존률(%)") +
    ggtitle("Graunt 시대와 1993년 미국의 생존함수 비교") +
-   labs(colour="시기") +
+   labs(colour = "시기") +
    scale_colour_discrete(labels = c("Graunt 시대", "1993년 미국")))
 ```
 
@@ -549,7 +555,7 @@ class(theme.kr)
 * 이 세션에서 만든 함수를 어떻게 저장하는 지 유의. 불러올 때는 `source()` 사용.
 
 ```{r, dump and save}
-dump("theme.kr", file="theme_kr.R")
+dump("theme.kr", file = "theme_kr.R")
 dump("area.R", file = "area.R")
 save.image("graunt_halley_160328.rda")
 ```
