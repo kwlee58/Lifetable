@@ -151,7 +151,11 @@ area.R(graunt$x, graunt$lx.17th) / 100
 plot(graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx, labels = graunt$lx.17th)
+<<<<<<< HEAD
 abline(v=c(0, 76), lty = 2)
+=======
+abline(v = c(0, 76), lty = 2)
+>>>>>>> master
 ```
 
     2. 1993년 미국의 생존함수 추가
