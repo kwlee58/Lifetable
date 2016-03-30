@@ -531,7 +531,7 @@ p4
 (p6 <- p5 + annotate("text", x = c(20, 40, 70), y = c(20, 60, 90), label=c("Graunt Era", "Difference of\nLife Expectancies", "US 1993")))
 ```
 
-    4. x- axis and y-axis tick marks
+    4. x-axis and y-axis tick marks
 
 ```{r, familiar axis labels, fig.width = 6, fig.height = 6}
 (p7 <- p6 + scale_x_continuous(breaks = graunt$x) + scale_y_continuous(breaks = graunt$lx.17th))
@@ -544,5 +544,5 @@ ggsave("../pics/graunt_us_poly.png", p7)
 
 ```{r, dump and save}
 dump("area.R", file = "area.R")
-save.image("graunt_halley_160328.rda")
+save.image("graunt_halley_160329.rda")
 ```
