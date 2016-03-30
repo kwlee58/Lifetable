@@ -14,6 +14,7 @@ output: html_document
 * Graunt's Life Table
 
 ```{r, graunt data input}
+rm(list = ls())
 graunt <- data.frame(x = c(0, seq(6, 76, by = 10)), lx.17th = c(100, 64, 40, 25, 16, 10, 6, 3, 1))
 ```
 
@@ -235,7 +236,7 @@ abline(h = 70, lty = 2)
 axis(side = 2, at = 70, labels = 70, las = 1)
 polygon(us.graunt.x, us.graunt.y, density = 15, col = "red", border = NA)
 abline(v = graunt$x, lty = 2)
-main.title.g.us <- "Life distribution of Graunt and US 1993"
+main.title.g.us <- "Survival Function of Graunt and US 1993"
 title(main = main.title.g.us, xlab = x.lab, ylab = y.lab)
 dev.copy(device = png, file = "../pics/graunt_us93.png")
 ```
@@ -344,7 +345,7 @@ axis(side = 1, at = c(graunt$x, 84), labels = c(graunt$x, 84))
 axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th, las = 1)
 abline(v = c(0, 76, 84), lty = 2)
 text(x = c(16, 36), y = c(20, 50), label = c("Graunt", "Halley"))
-main.title.2 <- "Graunt's and Halley's Life Tables"
+main.title.2 <- "Survival Function of Graunt and Halley"
 title(main = main.title.2, xlab = x.lab, ylab = y.lab)
 ```
 
@@ -473,21 +474,22 @@ p4
     2. Main title
 
 ```{r, ggtitle, fig.width = 6, fig.height=6}
-(g4 <- g3 + xlab(x.lab) + ylab(y.lab) +
+(g4 <- g3 + xlab(x.lab) + ylab(y.lab) + 
    ggtitle(main.title.g.us))
 ```
 
     3. Change legend title
     
 ```{r, legends title, fig.width = 6, fig.height = 6}
-(g4 <- g3 + xlab(x.lab) + ylab(y.lab) +
+(g4 <- g3 + 
+   xlab(x.lab) + ylab(y.lab) + 
    ggtitle(main.title.g.us) +
    labs(colour = "Era"))
 ```
 
     4. Change legends.
     
-```{r, korean legends, fig.width = 6, fig.height = 6}
+```{r, change legends, fig.width = 6, fig.height = 6}
 (g4 <- g3 + 
    xlab(x.lab) + ylab(y.lab) +
    ggtitle(main.title.g.us) +
@@ -537,6 +539,51 @@ p4
 (p7 <- p6 + scale_x_continuous(breaks = graunt$x) + scale_y_continuous(breaks = graunt$lx.17th))
 ggsave("../pics/graunt_us_poly.png", p7)
 ```
+
+### Graunt and Halley
+
+#### Data Reshaping
+
+```{r, data reshaing}
+graunt.2 <- graunt
+names(graunt.2) <- c("x", "Graunt")
+halley.2 <- halley[-2]
+names(halley.2) <- c("x", "Halley")
+graunt.halley.melt <- melt(list(graunt.2, halley.2), id.vars = "x", value.name = "lx", variable.name = "Who")
+str(graunt.halley.melt)
+graunt.halley.melt.g <- subset(graunt.halley.melt, graunt.halley.melt$x %in% graunt$x)
+```
+ 
+#### Survival Function, Step by Step
+
+```{r, first plot for Graunt and Halley, fig.width = 6, fig.height = 6}
+gh1 <- ggplot() + geom_line(data = graunt.halley.melt, aes(x = x, y = lx, colour = Who))
+gh1
+gh2 <- gh1 + geom_point(data = graunt.halley.melt.g, aes(x = x, y = lx, colour = Who))
+gh2
+gh3 <- gh2 + 
+  theme_bw() + 
+  xlab(x.lab) + ylab(y.lab) + 
+  ggtitle(main.title.2)
+gh3
+gh4 <- gh3 + 
+  theme(legend.position = c(0.8, 0.8)) +
+  annotate("text", x = c(16, 36), y = c(20, 50), label=c("Graunt", "Halley"))
+gh4
+ggsave("../pics/graunt_halley_ggplot.png", gh4)
+```
+
+#### Polygon
+
+```{r, polygon for Graunt and Halley, fig.width = 6, fig.height = 6}
+ghp4 <- gh4 + geom_polygon(data = data.frame(x = poly.1.x, y = poly.1.y), aes(x = x, y = y), alpha = 0.3, fill = "blue")
+ghp4
+ghp5 <- ghp4 + geom_polygon(data = data.frame(x = poly.2.x, y = poly.2.y), aes(x = x, y = y), alpha = 0.3, fill = "red")
+ghp5
+ggsave("../pics/graunt_halley_poly_ggplot.png", ghp5)
+```
+
+
 
 ### dump() and source()
 
