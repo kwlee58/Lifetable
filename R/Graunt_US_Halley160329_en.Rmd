@@ -583,8 +583,6 @@ ghp5
 ggsave("../pics/graunt_halley_poly_ggplot.png", ghp5)
 ```
 
-
-
 ### dump() and source()
 
 * Check out how to save and retreve. Use `source()` for retrieval
