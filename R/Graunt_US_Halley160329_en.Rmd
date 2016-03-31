@@ -530,7 +530,7 @@ p4
     3. "Graunt Era", "US 1993", "Difference of Life Expectancies" at the proper position
     
 ```{r, text polygon,  fig.width = 6, fig.height = 6}
-(p6 <- p5 + annotate("text", x = c(20, 40, 70), y = c(20, 60, 90), label=c("Graunt Era", "Difference of\nLife Expectancies", "US 1993")))
+(p6 <- p5 + annotate("text", x = c(20, 40, 70), y = c(20, 60, 90), label = c("Graunt Era", "Difference of\nLife Expectancies", "US 1993")))
 ```
 
     4. x-axis and y-axis tick marks
@@ -544,6 +544,8 @@ ggsave("../pics/graunt_us_poly.png", p7)
 
 #### Data Reshaping
 
+* Since the observed ages are different, we need to final structure of the data frame to be melted. So, create copies of `graunt` and `halley` and extract parts of what we need and give feasible names.  
+
 ```{r, data reshaing}
 graunt.2 <- graunt
 names(graunt.2) <- c("x", "Graunt")
@@ -552,6 +554,7 @@ names(halley.2) <- c("x", "Halley")
 graunt.halley.melt <- melt(list(graunt.2, halley.2), id.vars = "x", value.name = "lx", variable.name = "Who")
 str(graunt.halley.melt)
 graunt.halley.melt.g <- subset(graunt.halley.melt, graunt.halley.melt$x %in% graunt$x)
+head(graunt.halley.melt.g, n = 10)
 ```
  
 #### Survival Function, Step by Step
@@ -568,7 +571,8 @@ gh3 <- gh2 +
 gh3
 gh4 <- gh3 + 
   theme(legend.position = c(0.8, 0.8)) +
-  annotate("text", x = c(16, 36), y = c(20, 50), label=c("Graunt", "Halley"))
+  annotate("text", x = c(16, 36), y = c(20, 50), label = c("Graunt", "Halley")) +
+  scale_x_continuous(breaks = c(graunt$x, 84)) + scale_y_continuous(breaks = c(graunt$lx.17th, halley$px[halley$age == 6]))
 gh4
 ggsave("../pics/graunt_halley_ggplot.png", gh4)
 ```
@@ -585,7 +589,7 @@ ggsave("../pics/graunt_halley_poly_ggplot.png", ghp5)
 
 ### dump() and source()
 
-* Check out how to save and retreve. Use `source()` for retrieval
+* Check out how to save and retrieve. Use `source()` and `load()` for retrieval.
 
 ```{r, dump and save}
 dump("area.R", file = "area.R")
