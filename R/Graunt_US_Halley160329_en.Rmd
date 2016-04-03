@@ -682,20 +682,24 @@ ggsave("../pics/graunt_halley_us_ggplot.png", ghu4)
 
 ### Coordinates 
 
+In order to make the graphs truncated at the age 76, restrict the age of Halley up to 76.
+
 ```{r, polygon data}
+poly.lower.76 <- subset(poly.lower, poly.lower$x <= 76)
 poly.3.x <- c(us93.2$x, halley.2$x[85:12], 10.8, graunt.2$x[2:1])
 poly.3.y <- c(us93.2$US93, halley.2$Halley[85:12], 52.8, graunt.2$Graunt[2:1])
 poly.us <- data.frame(x = poly.3.x, y = poly.3.y)
+poly.us.76 <- subset(poly.us, poly.us$x <= 76)
 ```
 
 
 ```{r, polygon for Graunt Halley and US93, fig.width = 6, fig.height = 6}
 (ghup4 <- ghu4 + 
-  geom_polygon(data = poly.upper, aes(x = x, y = y), alpha = 0.3, fill = "green"))
+  geom_polygon(data = poly.upper, aes(x = x, y = y), alpha = 0.3, fill = "red"))
 (ghup5 <- ghup4 + 
-  geom_polygon(data = poly.lower, aes(x = x, y = y), alpha = 0.3, fill = "red"))
+  geom_polygon(data = poly.lower, aes(x = x, y = y), alpha = 0.3, fill = "green"))
 (ghup6 <- ghup5 +
-  geom_polygon(data = poly.us, aes(x = x, y = y), alpha = 0.3, fill = "blue"))
+  geom_polygon(data = poly.us.76, aes(x = x, y = y), alpha = 0.3, fill = "blue"))
 (ghup7 <- ghup6 +
   geom_point(data = data.frame(x = 84, y = halley$px[85]), aes(x = x, y = y),  colour = 3))
 ggsave("../pics/graunt_halley_us_poly_ggplot.png", ghup7)
