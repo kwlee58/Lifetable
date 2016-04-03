@@ -705,7 +705,6 @@ poly.us.76 <- subset(poly.us, poly.us$x <= 76)
 ggsave("../pics/graunt_halley_us_poly_ggplot.png", ghup7)
 ```
 
-
 ### dump() and source()
 
 * Check out how to save and retrieve. Use `source()` and `load()` for retrieval.
