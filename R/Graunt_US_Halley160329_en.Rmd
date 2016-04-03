@@ -697,7 +697,7 @@ poly.us.76 <- subset(poly.us, poly.us$x <= 76)
 (ghup4 <- ghu4 + 
   geom_polygon(data = poly.upper, aes(x = x, y = y), alpha = 0.3, fill = "red"))
 (ghup5 <- ghup4 + 
-  geom_polygon(data = poly.lower, aes(x = x, y = y), alpha = 0.3, fill = "green"))
+  geom_polygon(data = poly.lower.76, aes(x = x, y = y), alpha = 0.3, fill = "green"))
 (ghup6 <- ghup5 +
   geom_polygon(data = poly.us.76, aes(x = x, y = y), alpha = 0.3, fill = "blue"))
 (ghup7 <- ghup6 +
