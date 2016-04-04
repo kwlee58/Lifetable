@@ -65,7 +65,7 @@ $E(X) = E\{F^{-1}(U)\} = \int_{0}^{1} F^{-1}(u)du = \int_0^{\infty} 1-F(x) dx = 
 1. Basic plot with points and lines, compare the following threes methods
 
 ```{r, first plot, fig.width = 9, fig.height = 9}
-library(extrafont)
+# library(extrafont)
 par(mfrow = c(2, 2))
 plot(graunt$x, graunt$lx)
 plot(lx.17th ~ x, data = graunt)
