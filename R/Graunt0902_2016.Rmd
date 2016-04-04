@@ -7,45 +7,42 @@ output: html_document
 
 ## Graunt의 생명표
 
-
-###  자료 출처
-
+### Data Source
 
 <img src = "../pics/graunt_table.png" width = "160"/>
 
 <!--![Graunt 와 1993년 미국](../pics/graunt_table.png)-->
 
+### Data Input
 
-### 자료 입력
-
-```{r}
+```{r, data graunt}
 graunt <- data.frame(x = c(0, seq(6, 76, by = 10)), lx.17th = c(100, 64, 40, 25, 16, 10, 6, 3, 1))
 ```
 
-*  같은 연령대의 1993년 미국 생명표 입력
+* Life table US 1993 for the same age group
 
-```{r}
+```{r, data US 1993}
 us.93 <- data.frame(x = graunt$x, lx.93 = c(100, 99, 99, 98, 97, 95, 92, 84, 70))
 ```
 
-* 두 자료를 합쳐서 하나의 데이터프레임으로 
+* Combine into one single data frame
 
-```{r}
+```{r, single data frame}
 graunt.us <- data.frame(graunt, lx.93 = us.93$lx)
 graunt.us
 ```
 
 
-* Graunt 생명표로부터 개략의 생존함수 도시
+* Draft of Graunt life contingency curve
 
-```{r fig.width = 6, fig.height = 6}
+```{r, Life Contingency curve of Graunt, fig.width = 6, fig.height = 6}
 plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th)
 abline(v = c(0, 76), lty = 2)
 ```
 
-* 기대수명 파악이 용이하도록 빗금. `polygon()`에 필요한 좌표 설정에 유의(시계 방향으로 좌표 파악)
+* Shading to make clear the life expectancy. Setting the coordinates for `polygon()` (Clockwise coordinates setting)
 
 ```{r fig.width = 6, fig.height = 6}
 plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
@@ -57,9 +54,9 @@ graunt.y <- c(graunt$lx.17th, 0)
 polygon(graunt.x, graunt.y, density = 15)
 ```
 
-* 윤곽을 파악하기 쉽도록 격자 설정
+* Setting grids to clarify the shape
 
-```{r fig.width = 6, fig.height = 6}
+```{r, grids, fig.width = 6, fig.height = 6}
 plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th)
@@ -70,9 +67,9 @@ polygon(graunt.x, graunt.y, density = 15)
 abline(v = graunt$x, lty = 3)
 ```
 
-* 메인 타이틀과 x축, y축 라벨 설정.
+* Main title, x-axis and y-axis labels
 
-```{r fig.width=6, fig.height=6}
+```{r, titles and labels, fig.width=6, fig.height=6}
 plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th)
@@ -84,9 +81,9 @@ abline(v = graunt$x, lty = 3)
 title(main = "Survival Curve of John Graunt", xlab="Age(years)", ylab="Survival Rate(%)")
 ```
 
-* 1993년 미국의 생존함수와 비교하기 위하여 `lines()`에 `type="b"`로 설정. $y$ 축의 70% 가 어떤 의미인지 음미할 것.  
+* To compare with US 1993, set `type="b"` in  `lines()`. The meaning of 70% in $y$-axis  
 
-```{r fig.width=6, fig.height=6}
+```{r, both points and lines, fig.width=6, fig.height=6}
 plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
 axis(side = 1, at = graunt$x, labels = graunt$x)
 axis(side = 2, at = graunt$lx.17th, labels = graunt$lx.17th)
@@ -97,7 +94,7 @@ abline(h = 70, lty = 2)
 text(x = 66, y = 95, labels = "US 1993")
 ```
 
-* Graunt의 생존곡선과 1993년 미국 생존곡선 사이의 빗금친 부분은 무엇을 상징하는가?
+* The shading between Graunt's and US 1993 means the difference of life expectancies. Check the role of `las = 1` in `axis(side = 2, ...)`.
 
 ```{r fig.width=6, fig.height=6}
 plot(graunt$x, graunt$lx.17th, ann = F, xaxt = "n", yaxt = "n", type = "b")
@@ -107,15 +104,15 @@ abline(v = c(0, 76), lty = 2)
 lines(us.93$x, us.93$lx.93, type = "b")
 axis(side = 2, at = 70, labels = 70, las = 1)
 abline(h = 70, lty = 2)
-us.graunt.x <- c(graunt$x, rev(graunt$x))
+us.graunt.x <- c(us.93$x, rev(graunt$x))
 us.graunt.y <- c(us.93$lx.93, rev(graunt$lx.17th))
 polygon(us.graunt.x, us.graunt.y, density = 15, col = "red", border = NA)
 abline(v = graunt$x, lty = 2)
 title(main="Survival Curve of Graunt and US 1993", xlab="Age(years)", ylab="Survival Rate(%)")
 ```
 
-* 마무리
+* Save workspace
 
 ```{r echo = FALSE}
-# save.image(file = "graunt_0902.rda")
+save.image(file = "graunt_160322.rda")
 ```

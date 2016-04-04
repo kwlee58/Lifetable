@@ -120,7 +120,6 @@ title(main = "Survival Curve of Graunt's and US 93 Life Table", xlab = "Age(year
 
 ```
 
-
 ## ggplot
 
 * Work with `graunt.us`

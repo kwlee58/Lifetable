@@ -1,20 +1,21 @@
 ---
 title: "Graunt’s Life Table Extended"
 author: "coop711"
-date: "2015년 9월 16일"
+date: "`r Sys.Date()"
 output: html_document
 ---
 
-## 기대 수명 계산
+## Computation of Life Expectancy
 
-* 기본원리는 다음 식에서 알 수 있다시피 생존곡선의 밑 면적이 기대값이라는 것임. 
+* The are under the survival curve is the expected value.
+ 
     * $X \ge 0$, $X \sim F(x)$ => $X \equiv F^{-1}(U), U \sim U(0,1)$. 따라서, 
     * $E(X) = E\{F^{-1}(U)\} = \int_{0}^{1} F^{-1}(u)du = \int_0^{\infty} 1-F(x) dx = \int_{0}^{\infty} S(x) dx$
 
 ```{r, echo=FALSE}
-library(extrafont)
+# library(extrafont)
 # font_import()
-load("graunt_0908.rda")
+load("graunt_160322.rda")
 # loadfonts()
 ```
 
@@ -52,7 +53,7 @@ abline(v=c(0, 76), lty=2)
 ```{r}
 # graunt.x.2<-c(graunt$x, rev(graunt$x))
 # graunt.y.2<-c(rep(0, length(graunt$x)), rev(graunt$lx.17th))
-(graunt.x <- c(graunt$x, graunt$x[1]))
+(graunt.x <- c(graunt$x, 0))
 (graunt.y <- c(graunt$lx.17th, 0))
 ```
 

@@ -458,7 +458,7 @@ str(theme.kr)
 class(theme.kr)
 ```
 
-* 이 세션에서 만든 함수를 어떻게 저장하는 지 유의. 불러올 떄는 `source()` 사용.
+* 이 세션에서 만든 함수를 어떻게 저장하는 지 유의. 불러올 때는 `source()` 사용.
 
 ```{r}
 dump("theme.kr", file="theme_kr.R")
