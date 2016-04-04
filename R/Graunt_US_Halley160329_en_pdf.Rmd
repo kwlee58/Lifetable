@@ -380,6 +380,7 @@ Setting the coordinates for `polygon()`. The intersection is found at `x = 10.8,
 ```{r, coords upper region}
 poly.1.x <- c(graunt$x[1:2], 10.8, halley$age[11:1])
 poly.1.y <- c(graunt$lx.17th[1:2], 52.8, halley$px[11:1])
+poly.upper <- data.frame(x = poly.1.x, y = poly.1.y)
 ```
 
 * Lower region
@@ -387,6 +388,7 @@ poly.1.y <- c(graunt$lx.17th[1:2], 52.8, halley$px[11:1])
 ```{r, coords lower region}
 poly.2.x <- c(10.8, halley$age[12:85], graunt$x[9:3])
 poly.2.y <- c(52.8, halley$px[12:85], graunt$lx.17th[9:3])
+poly.lower <- data.frame(x = poly.2.x, y = poly.2.y)
 ```
 
 8. Shading upper region first 
@@ -655,6 +657,65 @@ ghp5 <- ghp4 +
   geom_polygon(data = data.frame(x = poly.2.x, y = poly.2.y), aes(x = x, y = y), alpha = 0.3, fill = "red")
 ghp5
 ggsave("../pics/graunt_halley_poly_ggplot.png", ghp5)
+```
+
+# Graunt, Halley, and US93
+
+## Data Reshape
+
+```{r, reshape stage 3}
+us93.2 <- us.93
+names(us93.2) <- c("x", "US93")
+ghu.melt <- melt(list(graunt.2, halley.2, us93.2), id.vars = "x", value.name = "lx", variable.name = "Who")
+ghu.melt.g <- ghu.melt[ghu.melt$x %in% graunt$x, ]
+main.title.3 <- "Survival Function Plots"
+```
+
+## Survival Function Plots with ggplot
+
+```{r, Survival function plot for Graunt Halley and US93, fig.width = 6, fig.height = 6}
+(ghu1 <- ggplot() + 
+  geom_line(data = ghu.melt, aes(x = x, y = lx, colour = Who)))
+(ghu2 <- ghu1 + 
+  geom_point(data = ghu.melt.g, aes(x = x, y = lx, colour = Who)))
+(ghu3 <- ghu2 + 
+  theme_bw() + 
+  xlab(x.lab) + 
+  ylab(y.lab) + 
+  ggtitle(main.title.3))
+(ghu4 <- ghu3 + 
+  theme(legend.position = c(0.2, 0.2)) +
+  annotate("text", x = c(36, 36, 70), y = c(25, 50, 90), label = c("Graunt", "Halley", "US93")) +
+  scale_x_continuous(breaks = c(graunt$x, 84)) + 
+  scale_y_continuous(breaks = c(graunt$lx.17th, halley$px[halley$age == 6])))
+ggsave("../pics/graunt_halley_us_ggplot.png", ghu4)
+```
+
+## Polygon
+
+### Coordinates 
+
+In order to make the graphs truncated at the age 76, restrict the age of Halley up to 76.
+
+```{r, polygon data}
+poly.lower.76 <- subset(poly.lower, poly.lower$x <= 76)
+poly.3.x <- c(us93.2$x, halley.2$x[85:12], 10.8, graunt.2$x[2:1])
+poly.3.y <- c(us93.2$US93, halley.2$Halley[85:12], 52.8, graunt.2$Graunt[2:1])
+poly.us <- data.frame(x = poly.3.x, y = poly.3.y)
+poly.us.76 <- subset(poly.us, poly.us$x <= 76)
+```
+
+
+```{r, polygon for Graunt Halley and US93, fig.width = 6, fig.height = 6}
+(ghup4 <- ghu4 + 
+  geom_polygon(data = poly.upper, aes(x = x, y = y), alpha = 0.3, fill = "red"))
+(ghup5 <- ghup4 + 
+  geom_polygon(data = poly.lower.76, aes(x = x, y = y), alpha = 0.3, fill = "green"))
+(ghup6 <- ghup5 +
+  geom_polygon(data = poly.us.76, aes(x = x, y = y), alpha = 0.3, fill = "blue"))
+(ghup7 <- ghup6 +
+  geom_point(data = data.frame(x = 84, y = halley$px[85]), aes(x = x, y = y),  colour = 3))
+ggsave("../pics/graunt_halley_us_poly_ggplot.png", ghup7)
 ```
 
 ### dump() and source()
