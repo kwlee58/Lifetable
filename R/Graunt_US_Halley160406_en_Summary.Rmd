@@ -27,32 +27,9 @@ graunt <- data.frame(x = c(0, seq(6, 76, by = 10)), xPo.g = c(100, 64, 40, 25, 1
 us93 <- data.frame(x = graunt$x, xPo.us = c(100, 99, 99, 98, 97, 95, 92, 84, 70))
 ```
 
-### Data Extraction
-
-There are many ways to extract part of `us93` data frame. 
-
-```{r, extraction}
-us93["xPo.us"]
-us93["xPo.us"][[1]]
-us93["xPo.us"]$xPo.us
-us93["xPo.us"]$xPo
-us93[2]
-us93[2][[1]]
-us93[2]$xPo.us
-us93[, "xPo.us"]
-us93[, 2]
-us93$xPo.us
-us93$xPo
-```
-
-### Into one single data frame 
-
-Combine two data frames into one single data frame, compare the results.
 
 ```{r one data frmae}
 (graunt.us <- data.frame(graunt, xPo.us = us93$xPo))
-(graunt.us.2 <- data.frame(graunt, us93[2]))
-(graunt.us.2 <- data.frame(graunt, us93[, 2]))
 ```
 
 ### Life Expectancy
@@ -63,34 +40,6 @@ $X \ge 0$, $X \sim F(x)$ => $X \equiv F^{-1}(U), U \sim U(0,1)$, therefore,
 
 $E(X) = E\{F^{-1}(U)\} = \int_{0}^{1} F^{-1}(u)du = \int_0^{\infty} 1-F(x) dx = \int_{0}^{\infty} S(x) dx$
 
-# Step by step approach to draw survival function plot
-
-1. Basic plot with points and lines, compare the following threes methods
-
-```{r, first plot, fig.width = 9, fig.height = 9}
-par(mfrow = c(2, 2))
-plot(graunt$x, graunt$xPo)
-plot(xPo.g ~ x, data = graunt)
-plot(graunt)
-plot(graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
-```
-
-2. Denote the ages and observed survival rates on the axes
-
-```{r, axes labels,  fig.width = 6, fig.height = 6}
-plot(graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
-axis(side = 1, at = graunt$x, labels = graunt$x)
-axis(side = 2, at = graunt$xPo.g, labels = graunt$xPo.g)
-```
-
-3. Denote the age 0 and 76 by dotted lines
-
-```{r, age 0 and 76, fig.width = 6, fig.height = 6}
-plot(graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
-axis(side = 1, at=graunt$x, labels=graunt$x)
-axis(side = 2, at = graunt$xPo.g, labels = graunt$xPo.g)
-abline(v = c(0, 76), lty = 2)
-```
 
 ### Setting up coordinates for `polygon()` (Clockwise)
 
@@ -99,33 +48,7 @@ abline(v = c(0, 76), lty = 2)
 (graunt.y <- c(graunt$xPo.g, 0))
 graunt.poly <- data.frame(x = graunt.x, y = graunt.y)
 ```
-
-4. Shading
-
-Note the effect of the last line of code.
-
-```{r, shading polygon, fig.width = 6, fig.height = 6}
-plot(graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
-axis(side = 1, at = graunt$x, labels = graunt$x)
-axis(side = 2, at = graunt$xPo.g, labels = graunt$xPo.g)
-abline(v = c(0, 76), lty = 4)
-polygon(graunt.poly, density = 15, angle = 135)
-points(graunt, pch = 21, col = "black", bg = "white")
-```
-
-5. Grids
-
-```{r, grids, fig.width = 6, fig.height = 6}
-plot(graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
-axis(side = 1, at = graunt$x, labels = graunt$x)
-axis(side = 2, at = graunt$xPo.g, labels = graunt$xPo.g)
-abline(v = c(0, 76), lty = 2)
-polygon(graunt.poly, density = 15)
-abline(v = graunt$x, lty = 2)
-points(graunt, pch = 21, col = "black", bg = "white")
-```
-
-6. Title, x-axis label, and y-axis label-->
+-->
 
 ```{r, title axis labels, fig.width = 6, fig.height = 6, echo = FALSE}
 plot(graunt, ann = FALSE, xaxt = "n", yaxt = "n", type = "b")
