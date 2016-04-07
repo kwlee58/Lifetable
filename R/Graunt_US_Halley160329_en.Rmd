@@ -486,9 +486,15 @@ Step by step approach to understand the grammar of ggplot
 
 ```{r, geom_point geom_line, fig.width = 6, fig.height = 6}
 (g1 <- ggplot() + 
+<<<<<<< HEAD
   geom_point(data = graunt.us.melt, aes(x = x, y = lx, colour = times)))
 (g2 <- g1 + 
   geom_line(data = graunt.us.melt, aes(x = x, y = lx, colour = times)))
+=======
+  geom_line(data = graunt.us.melt, aes(x = x, y = lx, colour = times)))
+(g2 <- g1 + 
+  geom_point(data = graunt.us.melt, aes(x = x, y = lx, colour = times), shape = 21, fill = "white"))
+>>>>>>> upstream/master
 (g3 <- g2 + 
   theme_bw()) 
 ```
@@ -618,7 +624,11 @@ graunt.halley.melt <- graunt.halley.melt[-4]
 (gh1 <- ggplot() + 
   geom_line(data = graunt.halley.melt, aes(x = x, y = lx, colour = Who)))
 (gh2 <- gh1 + 
+<<<<<<< HEAD
   geom_point(data = graunt.halley.melt.g, aes(x = x, y = lx, colour = Who)))
+=======
+  geom_point(data = graunt.halley.melt.g, aes(x = x, y = lx, colour = Who), shape = 21, fill = "white"))
+>>>>>>> upstream/master
 (gh3 <- gh2 + 
   theme_bw() + 
   xlab(x.lab) + 
@@ -638,11 +648,19 @@ Reuse `poly.upper` data frame and `poly.lower` data frame.
 
 ```{r, polygon for Graunt and Halley, fig.width = 6, fig.height = 6}
 (ghp4 <- gh4 + 
+<<<<<<< HEAD
   geom_polygon(data = poly.upper, aes(x = x, y = y), alpha = 0.3, fill = "blue"))
 (ghp5 <- ghp4 + 
   geom_polygon(data = poly.lower, aes(x = x, y = y), alpha = 0.3, fill = "red"))
 (ghp5 <- ghp5 +
   geom_point(data = data.frame(x = 84, y = halley$px[85]), aes(x = x, y = y),  colour = 3))
+=======
+  geom_polygon(data = poly.upper, aes(x = x, y = y), alpha = 0.3, fill = "red"))
+(ghp5 <- ghp4 + 
+  geom_polygon(data = poly.lower, aes(x = x, y = y), alpha = 0.3, fill = "green"))
+(ghp5 <- ghp5 +
+  geom_point(data = data.frame(x = 84, y = halley$px[85]), aes(x = x, y = y),  colour = 3, shape = 21, fill = "white"))
+>>>>>>> upstream/master
 ggsave("../pics/graunt_halley_poly_ggplot.png", ghp5)
 ```
 
@@ -664,7 +682,11 @@ main.title.3 <- "Survival Function Plots"
 (ghu1 <- ggplot() + 
   geom_line(data = ghu.melt, aes(x = x, y = lx, colour = Who)))
 (ghu2 <- ghu1 + 
+<<<<<<< HEAD
   geom_point(data = ghu.melt.g, aes(x = x, y = lx, colour = Who)))
+=======
+  geom_point(data = ghu.melt.g, aes(x = x, y = lx, colour = Who), shape = 21, fill = "white"))
+>>>>>>> upstream/master
 (ghu3 <- ghu2 + 
   theme_bw() + 
   xlab(x.lab) + 
@@ -701,7 +723,11 @@ poly.us.76 <- subset(poly.us, poly.us$x <= 76)
 (ghup6 <- ghup5 +
   geom_polygon(data = poly.us.76, aes(x = x, y = y), alpha = 0.3, fill = "blue"))
 (ghup7 <- ghup6 +
+<<<<<<< HEAD
   geom_point(data = data.frame(x = 84, y = halley$px[85]), aes(x = x, y = y),  colour = 3))
+=======
+  geom_point(data = data.frame(x = 84, y = halley$px[85]), aes(x = x, y = y),  colour = 3, shape = 21, fill = "white"))
+>>>>>>> upstream/master
 ggsave("../pics/graunt_halley_us_poly_ggplot.png", ghup7)
 ```
 
@@ -711,5 +737,9 @@ ggsave("../pics/graunt_halley_us_poly_ggplot.png", ghup7)
 
 ```{r, dump and save}
 dump("area.R", file = "area.R")
+<<<<<<< HEAD
 save.image("graunt_halley_160329.rda")
+=======
+save.image("graunt_halley_160329v2.rda")
+>>>>>>> upstream/master
 ```
