@@ -406,7 +406,7 @@ gup5 <- gup4 +
     
 ```{r, text polygon,  fig.width = 6, fig.height = 6}
 gup6 <- gup5 + 
-   annotate("text", x = c(20, 40, 70), y = c(20, 60, 90), label = c("Graunt Era", "Difference of\nLife Expectancies", "US 1993"), family = "Helvetica")
+   annotate("text", x = c(20, 40, 70), y = c(20, 60, 90), label = c("Graunt Era", "Difference of\nLife Expectancies", "US 1993"))
 ```
 
 4. x-axis and y-axis tick marks-->
