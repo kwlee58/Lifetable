@@ -239,7 +239,6 @@ text(x = c(16, 36, 70), y = c(25, 50, 90), label = c("Graunt", "Halley", "US93")
 # ggplot 
 
 <!--
-
 ```{r, library ggplot2}
 library(ggplot2)
 ```
