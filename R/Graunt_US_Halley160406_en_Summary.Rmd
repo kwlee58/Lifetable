@@ -516,7 +516,7 @@ ghup6 <- ghup5 +
 ```
 
 <!--
-### `dump()` and `source()`coop711
+### `dump()` and `source()`
 
 * Check out how to save and retrieve. Use `source()` and `load()` for retrieval.
 
