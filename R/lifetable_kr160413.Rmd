@@ -159,7 +159,7 @@ library(ggplot2)
   theme(legend.position=c(0.25, 0.25)))
 ```
 
-<img src = "../pics/plot_symbols_shape.png" width = "240"/>
+<img src = "../pics/plot_symbols_shape.png" width = "480"/>
 
 ## Polygon
 
@@ -185,7 +185,7 @@ Use `poly.kr`.
 
 ###
 
-```{r fig.width=6, fig.height=6}
+```{r, expected values,  fig.width = 7, fig.height = 7}
 (e0.1 <- ggplot(lt.e0.melt, aes(x = year, y = e0, colour = gender)) + 
    theme_bw() +
    geom_line())
