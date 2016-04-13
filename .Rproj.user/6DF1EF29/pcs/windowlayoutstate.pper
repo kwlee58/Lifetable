@@ -1,15 +1,21 @@
 {
     "left" : {
+<<<<<<< 09f2a248bf8d5a295019ec28730cdea7d23f3a43
 <<<<<<< 8fe62bbb2f2e064f4bb816669d72e56ba497bd1d
         "panelheight" : 713,
         "splitterpos" : 300,
         "topwindowstate" : "MINIMIZE",
         "windowheight" : 751
 =======
+=======
+>>>>>>> INDEX
         "panelheight" : 996,
         "splitterpos" : 419,
         "topwindowstate" : "NORMAL",
         "windowheight" : 1034
+<<<<<<< 09f2a248bf8d5a295019ec28730cdea7d23f3a43
+>>>>>>> INDEX
+=======
 >>>>>>> INDEX
     },
     "right" : {
