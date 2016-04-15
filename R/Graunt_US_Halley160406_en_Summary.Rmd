@@ -289,7 +289,7 @@ g5 <- g4 +
   geom_vline(xintercept = graunt$x, linetype = "dotted") +
   geom_hline(yintercept = 0, linetype = "dotted")
 pg4 <- g4 +
-  geom_polygon(data = graunt.poly, aes(x = x, y = y), alpha = 0.3, fill = "grey")
+  geom_polygon(data = graunt.poly, aes(x = x, y = y), alpha = 0.7, fill = "grey")
 ```
 -->
 
