@@ -1,7 +1,7 @@
 ---
 title: "Lifetable Korea"
 author: "coop711"
-date: "`r Sys.Date()"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -199,8 +199,9 @@ lt.e0.melt <- melt(lt.e0.df, id.vars = "year", measure.vars = c("A", "M", "F"), 
 
 ```{r, compare e0, fig.width = 12, fig.height = 6.75, echo = FALSE}
 e0.1 <- ggplot(lt.e0.melt, aes(x = year, y = e0, colour = gender)) + 
-   theme_bw() +
-   geom_line()
+  theme_bw() +
+  geom_line() +
+  geom_point(shape = 17, size = 2)
 e0.2 <- e0.1 + 
   ylim(50, 90)
 e0.3 <- e0.2 + 
